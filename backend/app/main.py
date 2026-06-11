@@ -17,10 +17,35 @@ app.add_middleware(
 
 from app.api.v1.router import api_router
 from app.services.rag.rag_service import rag_service
+from alembic.config import Config
+from alembic import command
+from app.db.seed import seed_personas
+import logging
+
+logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_event():
     import asyncio
+    
+    # Run database migrations programmatically at startup
+    try:
+        logger.info("Running database migrations (Alembic upgrade head)...")
+        alembic_cfg = Config("alembic.ini")
+        await asyncio.to_thread(command.upgrade, alembic_cfg, "head")
+        logger.info("Database migrations completed successfully.")
+    except Exception as e:
+        logger.error(f"Database migration failed: {e}")
+
+    # Seed the database (idempotent)
+    try:
+        logger.info("Seeding default database records...")
+        await asyncio.to_thread(seed_personas)
+        logger.info("Database seeding completed successfully.")
+    except Exception as e:
+        logger.error(f"Database seeding failed: {e}")
+
+    # Initialize RAG
     await asyncio.to_thread(rag_service.initialize)
 
 
