@@ -32,7 +32,8 @@ export default function Room() {
     // Clear previous messages when joining a new room
     useDebateStore.setState({ messages: [], activeSessionId: id });
     
-    const socket = new WebSocket(`ws://localhost:8000/api/v1/debate/ws/${id}`);
+    const wsBaseUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000';
+    const socket = new WebSocket(`${wsBaseUrl}/api/v1/debate/ws/${id}`);
     
     socket.onopen = () => {
       socket.send(JSON.stringify({ type: "start_debate" }));

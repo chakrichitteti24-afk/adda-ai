@@ -14,14 +14,15 @@ export default function TopicSubmission() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/v1/topics/', {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const res = await fetch(`${apiBaseUrl}/api/v1/topics/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, description: '' })
       });
       const data = await res.json();
       
-      const startRes = await fetch(`http://localhost:8000/api/v1/debate/start?topic_id=${data.id}`, { method: 'POST' });
+      const startRes = await fetch(`${apiBaseUrl}/api/v1/debate/start?topic_id=${data.id}`, { method: 'POST' });
       const startData = await startRes.json();
       
       router.push(`/room/${startData.session_id}`);
