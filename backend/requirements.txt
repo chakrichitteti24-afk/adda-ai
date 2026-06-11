@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+alembic
+pydantic
+pydantic-settings
+python-dotenv
+groq
+websockets
+langchain
+langchain-community
+chromadb
+sentence-transformers
+pypdf
+tiktoken

@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+/frontend/node_modules/
+/frontend/.next/
+/frontend/out/
+
+# Python virtual environment and cache
+venv/
+/backend/venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database and vector stores
+/backend/adda_ai.db
+/backend/chroma_db/
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/backend/.env
+
+# OS files
+.DS_Store
+Thumbs.db
