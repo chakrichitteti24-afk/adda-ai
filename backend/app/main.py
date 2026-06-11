@@ -35,7 +35,14 @@ async def startup_event():
         await asyncio.to_thread(command.upgrade, alembic_cfg, "head")
         logger.info("Database migrations completed successfully.")
     except Exception as e:
-        logger.error(f"Database migration failed: {e}")
+        logger.error(f"Database migration failed, falling back to Base.metadata.create_all: {e}")
+        try:
+            from app.db.session import engine
+            from app.models import Base
+            await asyncio.to_thread(Base.metadata.create_all, bind=engine)
+            logger.info("Database tables created successfully using Base.metadata.create_all.")
+        except Exception as create_err:
+            logger.error(f"Base.metadata.create_all fallback failed: {create_err}")
 
     # Seed the database (idempotent)
     try:
