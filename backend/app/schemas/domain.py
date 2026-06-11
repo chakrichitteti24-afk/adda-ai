@@ -42,3 +42,25 @@ class MessageResponse(BaseModel):
     timestamp: datetime
     sequence_number: int
     model_config = ConfigDict(from_attributes=True)
+
+class DebateRespondRequest(BaseModel):
+    session_id: str
+    user_message: str
+
+class PersonaResponseItem(BaseModel):
+    persona: str
+    content: str
+
+class DebateRespondResponse(BaseModel):
+    responses: List[PersonaResponseItem]
+
+class DebateMessageResponse(BaseModel):
+    id: str
+    conversation_id: str
+    persona_id: Optional[str] = None
+    persona_name: Optional[str] = None
+    role: str
+    content: str
+    timestamp: datetime
+    sequence_number: int
+    model_config = ConfigDict(from_attributes=True)
