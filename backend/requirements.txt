@@ -10,6 +10,4 @@ websockets
 langchain
 langchain-community
 chromadb
-sentence-transformers
 pypdf
-tiktoken

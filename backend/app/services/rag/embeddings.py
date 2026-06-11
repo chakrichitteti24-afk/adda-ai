@@ -1,5 +1,6 @@
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -8,10 +9,14 @@ class EmbeddingsService:
         self.model_name = model_name
         self._embeddings = None
 
-    def get_embeddings(self) -> HuggingFaceEmbeddings:
+    def get_embeddings(self) -> HuggingFaceInferenceAPIEmbeddings:
         if self._embeddings is None:
-            logger.info(f"Initializing HuggingFaceEmbeddings with model: {self.model_name}")
-            self._embeddings = HuggingFaceEmbeddings(model_name=self.model_name)
+            logger.info(f"Initializing API-based HuggingFaceInferenceAPIEmbeddings with model: {self.model_name}")
+            hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN") or ""
+            self._embeddings = HuggingFaceInferenceAPIEmbeddings(
+                api_key=hf_token,
+                model_name=f"sentence-transformers/{self.model_name}"
+            )
         return self._embeddings
 
 embeddings_service = EmbeddingsService()
