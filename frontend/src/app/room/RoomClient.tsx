@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useDebateStore } from '@/store/useDebateStore';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -18,8 +18,8 @@ const PERSONA_DETAILS: Record<string, { title: string, initials: string, color: 
 };
 
 export default function RoomClient() {
-  const params = useParams();
-  const id = params?.id as string;
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id') as string;
   const { messages, isTyping, activePersona, addMessage, setTyping } = useDebateStore();
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [input, setInput] = useState('');

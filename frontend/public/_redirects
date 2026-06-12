@@ -1,3 +1,1 @@
-/room/default/ /room/default/index.html 200
-/room/default/index.html /room/default/index.html 200
-/room/* /room/default/index.html 200
+# No custom redirects needed - static query routing in place

@@ -43,7 +43,7 @@ export default function TopicSubmission() {
       console.log("[handleSubmit] POST /debate/start Response Data:", startData);
       
       console.log("[handleSubmit] Redirecting to room:", startData.session_id);
-      router.push(`/room/${startData.session_id}`);
+      router.push(`/room/?id=${startData.session_id}`);
     } catch (error) {
       console.error("[handleSubmit] Error occurred during fetch flow:", error);
       if (error instanceof TypeError) {
